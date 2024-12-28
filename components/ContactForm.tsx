@@ -27,7 +27,13 @@ const ContactForm = () => {
 
     const processForm: SubmitHandler<Inputs> = async data => {
         try {
-            await sendEmail(data);
+            const result = await sendEmail(data);
+            console.log(result)
+
+            toast.success("Message sent successfully!");
+            
+            reset();
+
         } catch (error) {
             console.error(error);
             toast.error("An error occurred. Please try again.")
