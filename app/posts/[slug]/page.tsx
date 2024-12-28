@@ -1,4 +1,4 @@
-import { getPostBySlug } from '@/lib/posts';
+import { getPostBySlug, getPosts } from '@/lib/posts';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -7,8 +7,15 @@ import Image from 'next/image';
 import MDXContent from '@/components/MdxContent';
 import { formatDate } from '@/lib/utils';
 
+export async function generateStaticParams() {
+    const posts = await getPosts();
+    const slugs = posts.map(post => ({ slug: post.slug }));
+
+    return slugs
+}
+
 const Post = async ({ params }: { params: { slug: string }}) => {
-    const { slug } = params;
+    const { slug } = await params;
     const post = await getPostBySlug(slug);
 
     if (!post) {
@@ -36,6 +43,8 @@ const Post = async ({ params }: { params: { slug: string }}) => {
                         alt={title || ''}
                         className='object-cover'
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        priority
                     />
                 </div>
             )}
