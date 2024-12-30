@@ -15,10 +15,12 @@ export async function generateStaticParams() {
   return slugs
 }
 
+type tParams = Promise<{ slug: string }>;
+
 export default async function Project({
   params
 }: {
-  params: { slug: string }
+  params: tParams
 }) {
   const { slug } = await params
   const project = await getProjectBySlug(slug)
