@@ -4,8 +4,8 @@ import { MDXRemote, MDXRemoteProps } from 'next-mdx-remote/rsc'
 
 import Counter from '@/components/Counter'
 
-function Code({ children, ...props }: any) {
-  const codeHTML = highlight(children)
+function Code({ children, ...props }: React.HTMLProps<HTMLElement>) {
+  const codeHTML = highlight(typeof children === 'string' ? children : '');
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
 }
 
